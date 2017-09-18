@@ -1,15 +1,9 @@
-## What different android.log.Log?
+## What different eastar roid volley?
 
-android.log.Log is more smart, powerfull then android.util.Log
-Android developers often need to logcat.
-So I made it.
+more simple, powerfull used at json
 
-### log pretty output at JSON, XML another .... ?
-android.log.Log help u'r project tracking find bug.
-
-### log quick setting u'r project
-just replace all 'import android.util.Log;' -> 'import android.log.Log;' that it!
-
+### How to used .... ?
+next time
 
 
 
@@ -33,7 +27,7 @@ just replace all 'import android.util.Log;' -> 'import android.log.Log;' that it
 ```javascript
 
 	dependencies {
-	        compile 'com.github.djrain:log:v0.1'
+	        compile 'com.github.djrain:volley:1.0.0'
 	}
 
 
