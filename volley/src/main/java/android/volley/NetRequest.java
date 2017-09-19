@@ -166,7 +166,7 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
             return;
         try {
             if (mEnty._OUT_1 || mEnty._OUT_2 || mEnty._OUT_3 || Net._OUT_1 || Net._OUT_2 || Net._OUT_3) {
-                Log.println(Log.ERROR, mStack, Log._MESSAGE("나가:", mEnty.toString()));
+                Log.ps(Log.ERROR, mStack, "나가:", mEnty.toString());
             }
 
             if (mEnty._OUT_2 || mEnty._OUT_3 || Net._OUT_2 || Net._OUT_3) {
