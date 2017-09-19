@@ -93,24 +93,24 @@ public class Net {
         @Override
         public void onErrorResponse(VolleyError error) {
             try {
-                Log.l("ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
+                Log.e("ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
             } catch (Exception e) {
             }
 
             try {
                 if (error instanceof NoConnectionError) {
-                    Log.l("NoConnectionError", error);
+                    Log.e("NoConnectionError", error);
                 } else if (error instanceof NetworkError) {
-                    Log.l("NetworkError", error);
+                    Log.e("NetworkError", error);
                 } else if (error instanceof TimeoutError) {
-                    Log.l("TimeoutError", error);
+                    Log.e("TimeoutError", error);
                 } else if (error instanceof VolleyError) {
-                    Log.l("VolleyError", error.getMessage());
+                    Log.e("VolleyError", error.getMessage());
                 } else {
-                    Log.l("EtcError");
+                    Log.e("EtcError");
                 }
             } catch (Exception e) {
-                Log.l("Exception");
+                Log.e("Exception");
             }
         }
 
