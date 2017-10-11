@@ -180,12 +180,12 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
                         sb.append(" = ").append(entry.getValue());
                         sb.append("\n");
                     }
-                    Log.ps(Log.ERROR, mStack, Log._MESSAGE(sb));
+                    Log.ps(Log.ERROR, mStack, sb);
                 }
             }
 
             if (mEnty._OUT_3 || Net._OUT_3) {
-                Log.ps(Log.ERROR, mStack, Log._MESSAGE(new String(mEnty.getBody())));
+                Log.ps(Log.ERROR, mStack, new String(mEnty.getBody()));
             }
 
         } catch (Exception e) {
@@ -206,7 +206,7 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
                 sb.append("\t").append(entry.getKey()).append(": ").append(prettyJson(entry.getValue())).append("\n");
             }
 
-            Log.ps(Log.ERROR, mStack, Log._MESSAGE("나해:", mEnty.getClass().getSimpleName(), sb.toString()));
+            Log.ps(Log.ERROR, mStack, "나해:", mEnty.getClass().getSimpleName(), sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,7 +224,7 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
             for (Entry<String, String> entry : set) {
                 sb.append("\t").append(entry.getKey()).append(": ").append(prettyJson(entry.getValue())).append("\n");
             }
-            Log.ps(Log.WARN, mStack, Log._MESSAGE("들해:", mEnty.getClass().getSimpleName(), sb.toString()));
+            Log.ps(Log.WARN, mStack, "들해:", mEnty.getClass().getSimpleName(), sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -236,12 +236,10 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
 
         try {
             if (mEnty._IN_1 || Net._IN_1 || mEnty._IN_2 || Net._IN_2) {
-//                Log.i("들와:", "" + response.statusCode + "," + mEnty);
-                Log.ps(Log.INFO, mStack, Log._MESSAGE("들와:", "" + response.statusCode + "," + mEnty));
+                Log.ps(Log.INFO, mStack, "들와:", response.statusCode, mEnty);
             }
             if (mEnty._IN_2 || Net._IN_2) {
-//                Log.i("들와:", response.statusCode + "\n" + prettyJson(new String(response.data, HttpHeaderParser.parseCharset(response.headers, Net.UTF8))));
-                Log.ps(Log.INFO, mStack, Log._MESSAGE("들와:", response.statusCode + "\n" + prettyJson(new String(response.data, HttpHeaderParser.parseCharset(response.headers, Net.UTF8)))));
+                Log.ps(Log.INFO, mStack, "들와:", response.statusCode, new String(response.data, HttpHeaderParser.parseCharset(response.headers, Net.UTF8)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,23 +258,23 @@ public class NetRequest<T extends NetEnty> extends Request<T> {
                     statusCode = volleyError.getMessage();
                 }
 //                Log.e("!들와:", mEnty, "" + statusCode);
-                Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와:", mEnty, "" + statusCode));
+                Log.ps(Log.ERROR, mStack, "!들와:", mEnty, "" + statusCode);
             }
             if (mEnty._IN_2 || Net._IN_2 || mEnty._IN_3 || Net._IN_3) {
 //                Log.e("!들와1/5:", "" + volleyError.getClass().getSimpleName());
 //                Log.e("!들와2/5:", "" + volleyError.getMessage());
 //                Log.e("!들와3/5:", "" + volleyError.networkResponse);
-                Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와1/5:", "" + volleyError.getClass().getSimpleName()));
-                Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와2/5:", "" + volleyError.getMessage()));
-                Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와3/5:", "" + volleyError.networkResponse));
+                Log.ps(Log.ERROR, mStack, "!들와1/5:", "" + volleyError.getClass().getSimpleName());
+                Log.ps(Log.ERROR, mStack, "!들와2/5:", "" + volleyError.getMessage());
+                Log.ps(Log.ERROR, mStack, "!들와3/5:", "" + volleyError.networkResponse);
                 try {
 //                    Log.e("!들와4/5:", "" + volleyError.networkResponse.statusCode);
-                    Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와4/5:", "" + volleyError.networkResponse.statusCode));
+                    Log.ps(Log.ERROR, mStack, "!들와4/5:", "" + volleyError.networkResponse.statusCode);
                 } catch (Exception e) {
                 }
                 try {
 //                    Log.e("!들와5/5:", prettyJson(new String(volleyError.networkResponse.data, HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, Net.UTF8))));
-                    Log.ps(Log.ERROR, mStack, Log._MESSAGE("!들와5/5:", prettyJson(new String(volleyError.networkResponse.data, HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, Net.UTF8)))));
+                    Log.ps(Log.ERROR, mStack, "!들와5/5:", prettyJson(new String(volleyError.networkResponse.data, HttpHeaderParser.parseCharset(volleyError.networkResponse.headers, Net.UTF8))));
                 } catch (Exception e) {
                 }
             }
