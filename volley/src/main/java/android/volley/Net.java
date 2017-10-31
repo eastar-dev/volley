@@ -1,6 +1,5 @@
 package android.volley;
 
-import android.log.Log;
 import android.support.annotation.WorkerThread;
 
 import com.android.volley.NetworkError;
@@ -76,7 +75,7 @@ public class Net {
      */
     public static <T extends NetEnty> void async(T enty, OnNetResponse<T> onResponse) {
         if (enty.isDummy() && onResponse != null) {
-            Log.w(enty.getClass(), " is dummy codeing? deliver to successed");
+            Log.w(enty.mCallerStack, enty.getClass(), " is dummy codeing? deliver to successed");
             onResponse.onResponse(enty);
             return;
         }
@@ -93,30 +92,30 @@ public class Net {
         @Override
         public void onErrorResponse(VolleyError error) {
             try {
-                Log.e("ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
+                Log.e(Log.getStackOveride("onErrorResponse"), "ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
             } catch (Exception e) {
             }
 
             try {
                 if (error instanceof NoConnectionError) {
-                    Log.e("NoConnectionError", error);
+                    Log.e(Log.getStackOveride("onErrorResponse"), "NoConnectionError", error);
                 } else if (error instanceof NetworkError) {
-                    Log.e("NetworkError", error);
+                    Log.e(Log.getStackOveride("onErrorResponse"), "NetworkError", error);
                 } else if (error instanceof TimeoutError) {
-                    Log.e("TimeoutError", error);
+                    Log.e(Log.getStackOveride("onErrorResponse"), "TimeoutError", error);
                 } else if (error instanceof VolleyError) {
-                    Log.e("VolleyError", error.getMessage());
+                    Log.e(Log.getStackOveride("onErrorResponse"), "VolleyError", error.getMessage());
                 } else {
-                    Log.e("EtcError");
+                    Log.e(Log.getStackOveride("onErrorResponse"), "EtcError");
                 }
             } catch (Exception e) {
-                Log.e("Exception");
+                Log.e(Log.getStackOveride("onErrorResponse"), "Exception");
             }
         }
 
         @Override
         public void onResponse(T response) {
-            Log.pn(Log.INFO, 1, response);
+            Log.i(Log.getStackOveride("onResponse"), response);
         }
     }
 

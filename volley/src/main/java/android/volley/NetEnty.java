@@ -1,6 +1,5 @@
 package android.volley;
 
-import android.log.Log;
 import android.net.Uri;
 
 import com.android.volley.Request.Method;
@@ -34,8 +33,10 @@ public class NetEnty {
     public boolean _IN_2 = false;
     public boolean _IN_3 = false;
 
+    StackTraceElement mCallerStack;
     public NetEnty(int method) {
         this.method = method;
+        mCallerStack = Log.getStack();
     }
 
     public boolean isDummy() {
@@ -121,7 +122,6 @@ public class NetEnty {
         this.responseHeader = headers;
     }
 
-
     protected void parseData(String json) {
         gson = gsonCreate();
         this.response = json;
@@ -131,8 +131,7 @@ public class NetEnty {
             field.set(this, gson.fromJson(json, field.getType()));
             success = true;
         } catch (NoSuchFieldException e) {
-            Log.e("http://www.jsonschema2pojo.org");
-            Log.w(json);
+            Log.w(Log.getStackOveride("parseData"), json);
             success = false;
         } catch (Exception e) {
             success = false;
@@ -234,7 +233,6 @@ public class NetEnty {
             final String key = keyvalue.substring(0, po);
             final String value = keyvalue.substring(po + 1);
 
-
             paramsMap.put(key, value);
         }
 
@@ -243,7 +241,7 @@ public class NetEnty {
         StringBuilder encodedParams = new StringBuilder();
         for (Entry<String, Object> entry : set) {
             if (!(entry.getValue() instanceof CharSequence)) {
-                Log.w("! unsupported value ", entry.getKey(), entry.getValue().toString());
+                Log.w(mCallerStack, "! unsupported value ", entry.getKey(), entry.getValue().toString());
                 continue;
             }
 
@@ -289,7 +287,6 @@ public class NetEnty {
             throw new RuntimeException("Encoding not supported: " + Net.UTF8, uee);
         }
     }
-
 
     private boolean isStringParams() {
         for (Object obj : params.values()) {
