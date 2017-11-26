@@ -33,10 +33,8 @@ public class NetEnty {
     public boolean _IN_2 = false;
     public boolean _IN_3 = false;
 
-    StackTraceElement mCallerStack;
     public NetEnty(int method) {
         this.method = method;
-        mCallerStack = Log.getStack();
     }
 
     public boolean isDummy() {
@@ -131,11 +129,28 @@ public class NetEnty {
             field.set(this, gson.fromJson(json, field.getType()));
             success = true;
         } catch (NoSuchFieldException e) {
-            Log.w(Log.getStackOveride("parseData"), json);
+            Log.w("NoSuchFieldException 'data' in " + getClass().getSimpleName());
+            Log.w(json);
             success = false;
         } catch (Exception e) {
+            Log.w(e);
             success = false;
         }
+
+        if (success)
+            return;
+
+        try {
+            Field field = this.getClass().getDeclaredField("errors");
+            field.setAccessible(true);
+            field.set(this, this.gson.fromJson(json, field.getType()));
+        } catch (NoSuchFieldException e) {
+            Log.w("NoSuchFieldException 'errors' in " + getClass().getSimpleName());
+            Log.w(json);
+        } catch (Exception e) {
+            Log.printStackTrace(e);
+        }
+        Log.p(success ? Log.INFO : Log.ERROR, getClass().getSimpleName(), success);
     }
 
     protected Gson gsonCreate() {
@@ -241,7 +256,7 @@ public class NetEnty {
         StringBuilder encodedParams = new StringBuilder();
         for (Entry<String, Object> entry : set) {
             if (!(entry.getValue() instanceof CharSequence)) {
-                Log.w(mCallerStack, "! unsupported value ", entry.getKey(), entry.getValue().toString());
+                Log.w("! unsupported value ", entry.getKey(), entry.getValue().toString());
                 continue;
             }
 

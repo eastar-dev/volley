@@ -45,17 +45,13 @@ public class Net {
         sRequestQueue.start();
     }
 
-    /**
-     * 동기기다림
-     */
+    /** 동기기다림 */
     @WorkerThread
     public static <T extends NetEnty> T block(T enty) throws InterruptedException, ExecutionException, VolleyError {
         return sync(enty).get();
     }
 
-    /**
-     * 동기
-     */
+    /** 동기 */
     @WorkerThread
     public static <T extends NetEnty> RequestFuture<T> sync(T enty) {
         RequestFuture<T> future = RequestFuture.newFuture();
@@ -63,26 +59,32 @@ public class Net {
         return future;
     }
 
-    /**
-     * 비동기
-     */
+    /** 비동기 */
     public static <T extends NetEnty> void sent(T enty) {
-        async(enty, (OnNetResponse<T>) null);
+        async(enty, null, null);
     }
 
-    /**
-     * 비동기Callback
-     */
+    /** 비동기 Callback */
     public static <T extends NetEnty> void async(T enty, OnNetResponse<T> onResponse) {
         if (enty.isDummy() && onResponse != null) {
-            Log.w(enty.mCallerStack, enty.getClass(), " is dummy codeing? deliver to successed");
+            Log.w(enty.getClass(), " is dummy codeing? deliver to successed");
             onResponse.onResponse(enty);
             return;
         }
         sRequestQueue.add(new NetRequest<T>(enty, onResponse));
     }
 
-    public static interface OnNetResponse<T> extends Response.Listener<T>, Response.ErrorListener {
+    /** 비동기 success fail */
+    public static <T extends NetEnty> void async(T enty, Response.Listener<T> onResponse, Response.ErrorListener onError) {
+        if (enty.isDummy() && onResponse != null) {
+            Log.w(enty.getClass(), " is dummy codeing? deliver to successed");
+            onResponse.onResponse(enty);
+            return;
+        }
+        sRequestQueue.add(new NetRequest<T>(enty, onResponse, onError));
+    }
+
+    public interface OnNetResponse<T> extends Response.Listener<T>, Response.ErrorListener {
         void onErrorResponse(VolleyError error);
 
         void onResponse(T response);
@@ -92,30 +94,30 @@ public class Net {
         @Override
         public void onErrorResponse(VolleyError error) {
             try {
-                Log.e(Log.getStackOveride("onErrorResponse"), "ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
+                Log.e("ErrorResponse", error.networkResponse.statusCode, new String(error.networkResponse.data, HttpHeaderParser.parseCharset(error.networkResponse.headers, Net.UTF8)));
             } catch (Exception e) {
             }
 
             try {
                 if (error instanceof NoConnectionError) {
-                    Log.e(Log.getStackOveride("onErrorResponse"), "NoConnectionError", error);
+                    Log.e("NoConnectionError", error);
                 } else if (error instanceof NetworkError) {
-                    Log.e(Log.getStackOveride("onErrorResponse"), "NetworkError", error);
+                    Log.e("NetworkError", error);
                 } else if (error instanceof TimeoutError) {
-                    Log.e(Log.getStackOveride("onErrorResponse"), "TimeoutError", error);
+                    Log.e("TimeoutError", error);
                 } else if (error instanceof VolleyError) {
-                    Log.e(Log.getStackOveride("onErrorResponse"), "VolleyError", error.getMessage());
+                    Log.e("VolleyError", error.getMessage());
                 } else {
-                    Log.e(Log.getStackOveride("onErrorResponse"), "EtcError");
+                    Log.e("EtcError");
                 }
             } catch (Exception e) {
-                Log.e(Log.getStackOveride("onErrorResponse"), "Exception");
+                Log.e("Exception");
             }
         }
 
         @Override
         public void onResponse(T response) {
-            Log.i(Log.getStackOveride("onResponse"), response);
+            Log.pn(Log.INFO, 1, response);
         }
     }
 

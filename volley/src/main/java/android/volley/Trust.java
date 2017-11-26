@@ -28,7 +28,7 @@ public class Trust {
             //InputStream caInput = new BufferedInputStream(new FileInputStream("load-der.crt"));
             InputStream caInput = context.getResources().openRawResource(resid); //R.raw.tft : tft.cer
             Certificate ca = cf.generateCertificate(caInput);
-            android.util.Log.i("SELF_TRUST", "ca=" + ((X509Certificate) ca).getSubjectDN());
+            Log.i("ca=" + ((X509Certificate) ca).getSubjectDN());
             caInput.close();
 
             // Create a KeyStore containing our trusted CAs
@@ -53,7 +53,7 @@ public class Trust {
                 }
             });
         } catch (Exception e) {
-            android.util.Log.w("SELF_TRUST", e.getMessage());
+            Log.w(e);
         }
     }
 }
