@@ -29,12 +29,12 @@ public class Net {
     public static final String USER_AGENT = "User-Agent";
 
     public static boolean LOG = false;
-    public static boolean _OUT_1 = true;
+    public static boolean _OUT_1 = false;
     public static boolean _OUT_2 = false;
     public static boolean _OUT_3 = false;
     public static boolean _OUT_H = false;
 
-    public static boolean _IN_1 = true;
+    public static boolean _IN_1 = false;
     public static boolean _IN_2 = false;
     public static boolean _IN_3 = false;
     public static boolean _IN_H = false;

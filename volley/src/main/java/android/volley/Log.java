@@ -82,8 +82,7 @@ public class Log {
     private static final String PREFIX_MULTILINE = PREFIX + "▼";
     private static final String LF = "\n";
     private static final int MAX_LOG_LINE_BYTE_SIZE = 3600;
-    //    private static final String EXCLUDE_CLASS = "^android\\..+|^java\\..+|.+\\..*Log$|.+\\..*Logger$";
-    private static final String LOG_CLASS = "^android\\.log\\..+";
+    public static String LOG_CLASS = "^android\\.log\\..+";
     private static final String ANDROID_CLASS = "^android\\.app\\..+|^android\\.os\\..+|^com\\.android\\..+|^java\\..+|^android\\.view\\.BWebView\\$BWebViewClient";
 
     public static int p(int priority, Object... args) {
